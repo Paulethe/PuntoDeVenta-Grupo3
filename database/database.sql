@@ -76,6 +76,20 @@ CREATE TABLE categorias (
     fecha_actualizacion datetime null
     on UPDATE CURRENT_TIMESTAMP
     );
+
+CREATE TABLE proveedores (
+    id_proveedor INT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(200) NOT NULL,
+    empresa VARCHAR(200),
+    identidad VARCHAR(50) UNIQUE,
+    telefono VARCHAR(50),
+    correo VARCHAR(150),
+    direccion TEXT,
+    estado TINYINT(1) NOT NULL DEFAULT 1,
+    fecha_creacion DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    fecha_actualizacion DATETIME NULL
+        ON UPDATE CURRENT_TIMESTAMP
+);
     
     CREATE TABLE productos (
     id_producto INT AUTO_INCREMENT PRIMARY KEY,
