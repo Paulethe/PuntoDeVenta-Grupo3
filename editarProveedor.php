@@ -70,7 +70,7 @@ include "includes/navbar.php";
                     </div>
                     <div class="col-md-6 mb-3">
                         <label for="empresa" class="form-label">Empresa</label>
-                        <input type="text" id="empresa" class="form-control" name="empresa"
+                        <input type="text" id="empresa" class="form-control" name="empresa" required
                             value="<?php echo htmlspecialchars($proveedor['empresa']); ?>">
                     </div>
                 </div>
@@ -78,24 +78,24 @@ include "includes/navbar.php";
                 <div class="row">
                     <div class="col-md-4 mb-3">
                         <label for="identidad" class="form-label">Identidad / RTN</label>
-                        <input type="text" id="identidad" class="form-control" name="identidad"
+                        <input type="text" id="identidad" class="form-control" name="identidad" required
                             value="<?php echo htmlspecialchars($proveedor['identidad']); ?>">
                     </div>
                     <div class="col-md-4 mb-3">
                         <label for="telefono" class="form-label">Teléfono</label>
-                        <input type="text" id="telefono" class="form-control" name="telefono"
+                        <input type="text" id="telefono" class="form-control" name="telefono" required
                             value="<?php echo htmlspecialchars($proveedor['telefono']); ?>">
                     </div>
                     <div class="col-md-4 mb-3">
                         <label for="correo" class="form-label">Correo</label>
-                        <input type="email" id="correo" class="form-control" name="correo"
+                        <input type="email" id="correo" class="form-control" name="correo" required
                             value="<?php echo htmlspecialchars($proveedor['correo']); ?>">
                     </div>
                 </div>
 
                 <div class="mb-3">
                     <label for="direccion" class="form-label">Dirección</label>
-                    <textarea id="direccion" class="form-control" name="direccion" rows="3"><?php echo htmlspecialchars($proveedor['direccion']); ?></textarea>
+                    <textarea id="direccion" class="form-control" name="direccion" required rows="3"><?php echo htmlspecialchars($proveedor['direccion']); ?></textarea>
                 </div>
 
                 <div class="mb-3">
