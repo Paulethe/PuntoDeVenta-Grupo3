@@ -40,28 +40,28 @@ include "includes/navbar.php";
                     </div>
                     <div class="col-md-6 mb-3">
                         <label for="empresa" class="form-label">Empresa</label>
-                        <input type="text" id="empresa" class="form-control" name="empresa" placeholder="Ingrese el nombre de la empresa">
+                        <input type="text" id="empresa" class="form-control" name="empresa" placeholder="Ingrese el nombre de la empresa" required>
                     </div>
                 </div>
 
                 <div class="row">
                     <div class="col-md-4 mb-3">
                         <label for="identidad" class="form-label">Identidad / RTN</label>
-                        <input type="text" id="identidad" class="form-control" name="identidad" placeholder="Ingrese identidad o RTN">
+                        <input type="text" id="identidad" class="form-control" name="identidad" placeholder="Ingrese identidad o RTN" required>
                     </div>
                     <div class="col-md-4 mb-3">
                         <label for="telefono" class="form-label">Teléfono</label>
-                        <input type="text" id="telefono" class="form-control" name="telefono" placeholder="Ingrese el teléfono">
+                        <input type="text" id="telefono" class="form-control" name="telefono" placeholder="Ingrese el teléfono" required>
                     </div>
                     <div class="col-md-4 mb-3">
                         <label for="correo" class="form-label">Correo</label>
-                        <input type="email" id="correo" class="form-control" name="correo" placeholder="Ingrese el correo">
+                        <input type="email" id="correo" class="form-control" name="correo" placeholder="Ingrese el correo" required>
                     </div>
                 </div>
 
                 <div class="mb-3">
                     <label for="direccion" class="form-label">Dirección</label>
-                    <textarea id="direccion" class="form-control" name="direccion" rows="3" placeholder="Ingrese la dirección"></textarea>
+                    <textarea id="direccion" class="form-control" name="direccion" rows="3" placeholder="Ingrese la dirección" required></textarea>
                 </div>
 
                 <div class="mb-3">
