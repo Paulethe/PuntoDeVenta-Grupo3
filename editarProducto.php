@@ -43,7 +43,7 @@ include "includes/navbar.php";
 
     <div class="card">
         <div class="card-body">
-            <form action="controllers/editarProducto.php" method="POST" enctype="multipart/form-data">
+            <form action="controllers/editarProductos.php" method="POST" enctype="multipart/form-data">
                 <input type="hidden" name="id_producto" value="<?php echo $producto['id_producto']; ?>">
 
                 <div class="row">
