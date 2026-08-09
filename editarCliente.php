@@ -40,8 +40,8 @@ include "includes/navbar.php";
     </div>
 
     <?php if (isset($_SESSION['mensaje'])) { ?>
-        <div class="alert alert-<?php echo htmlspecialchars($_SESSION['tipo'], ENT_QUOTES, 'UTF-8'); ?>">
-            <?php echo htmlspecialchars($_SESSION['mensaje'], ENT_QUOTES, 'UTF-8'); ?>
+        <div class="alert alert-<?php echo htmlspecialchars($_SESSION['tipo']); ?>">
+            <?php echo htmlspecialchars($_SESSION['mensaje']); ?>
         </div>
     <?php
         unset($_SESSION['mensaje'], $_SESSION['tipo']);
@@ -56,28 +56,28 @@ include "includes/navbar.php";
                 <div class="row">
                     <div class="col-md-6 mb-3">
                         <label for="nombre" class="form-label">Nombre completo</label>
-                        <input type="text" id="nombre" class="form-control" name="nombre" value="<?php echo htmlspecialchars($cliente['nombre'], ENT_QUOTES, 'UTF-8'); ?>" required>
+                        <input type="text" id="nombre" class="form-control" name="nombre" value="<?php echo htmlspecialchars($cliente['nombre']); ?>" required>
                     </div>
                     <div class="col-md-6 mb-3">
                         <label for="identidad" class="form-label">Identidad</label>
-                        <input type="text" id="identidad" class="form-control" name="identidad" value="<?php echo htmlspecialchars($cliente['identidad'] ?? '', ENT_QUOTES, 'UTF-8'); ?>">
+                        <input type="text" id="identidad" class="form-control" name="identidad" value="<?php echo htmlspecialchars($cliente['identidad']); ?>">
                     </div>
                 </div>
 
                 <div class="row">
                     <div class="col-md-6 mb-3">
                         <label for="telefono" class="form-label">Teléfono</label>
-                        <input type="text" id="telefono" class="form-control" name="telefono" value="<?php echo htmlspecialchars($cliente['telefono'] ?? '', ENT_QUOTES, 'UTF-8'); ?>">
+                        <input type="text" id="telefono" class="form-control" name="telefono" value="<?php echo htmlspecialchars($cliente['telefono']); ?>">
                     </div>
                     <div class="col-md-6 mb-3">
                         <label for="correo" class="form-label">Correo</label>
-                        <input type="email" id="correo" class="form-control" name="correo" value="<?php echo htmlspecialchars($cliente['correo'] ?? '', ENT_QUOTES, 'UTF-8'); ?>">
+                        <input type="email" id="correo" class="form-control" name="correo" value="<?php echo htmlspecialchars($cliente['correo']); ?>">
                     </div>
                 </div>
 
                 <div class="mb-3">
                     <label for="direccion" class="form-label">Dirección</label>
-                    <textarea id="direccion" class="form-control" name="direccion" rows="3"><?php echo htmlspecialchars($cliente['direccion'] ?? '', ENT_QUOTES, 'UTF-8'); ?></textarea>
+                    <textarea id="direccion" class="form-control" name="direccion" rows="3"><?php echo htmlspecialchars($cliente['direccion']); ?></textarea>
                 </div>
 
                 <div class="row">

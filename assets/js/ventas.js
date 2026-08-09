@@ -6,14 +6,14 @@ let carrito = [];
 // ========================================
 
 
-$("#buscarProducto").on("keyup", function(){
+$("#buscarProducto").on("keyup", function () {
 
 
     let texto = $(this).val();
 
 
 
-    if(texto.length < 2){
+    if (texto.length < 2) {
 
         $("#resultadoProductos").html("");
 
@@ -25,28 +25,28 @@ $("#buscarProducto").on("keyup", function(){
 
     $.ajax({
 
-        url:"controllers/buscarProductos.php",
+        url: "controllers/buscarProductos.php",
 
-        type:"POST",
+        type: "POST",
 
-        data:{
-            buscar:texto
+        data: {
+            buscar: texto
         },
 
 
-        success:function(respuesta){
+        success: function (respuesta) {
 
-        console.log(respuesta);
+            console.log(respuesta);
 
             let productos = JSON.parse(respuesta);
 
 
 
-            let html="";
+            let html = "";
 
 
 
-            productos.forEach(function(producto){
+            productos.forEach(function (producto) {
 
 
 
@@ -113,10 +113,10 @@ $("#buscarProducto").on("keyup", function(){
 // ========================================
 
 
-function seleccionarProducto(producto){
+function seleccionarProducto(producto) {
 
-console.log("seleccionarProducto ejecutada", producto);
-console.trace();
+    console.log("seleccionarProducto ejecutada", producto);
+    console.trace();
 
     let existe = carrito.find(
 
@@ -126,30 +126,30 @@ console.trace();
 
 
 
-    if(existe){
+    if (existe) {
 
 
-        if(existe.cantidad + 1 <= producto.stock){
+        if (existe.cantidad + 1 <= producto.stock) {
 
             existe.cantidad++;
 
         }
 
 
-    }else{
+    } else {
 
 
         carrito.push({
 
-            id_producto:producto.id_producto,
+            id_producto: producto.id_producto,
 
-            nombre:producto.nombre,
+            nombre: producto.nombre,
 
-            precio:parseFloat(producto.precio_venta),
+            precio: parseFloat(producto.precio_venta),
 
-            stock:parseFloat(producto.stock),
+            stock: parseFloat(producto.stock),
 
-            cantidad:1
+            cantidad: 1
 
         });
 
@@ -178,20 +178,20 @@ console.trace();
 // ========================================
 
 
-function mostrarCarrito(){
+function mostrarCarrito() {
 
 
-    let html="";
+    let html = "";
 
 
 
-    carrito.forEach(function(producto,index){
+    carrito.forEach(function (producto, index) {
 
 
 
         let total =
-        producto.cantidad *
-        producto.precio;
+            producto.cantidad *
+            producto.precio;
 
 
 
@@ -306,15 +306,15 @@ function mostrarCarrito(){
 // ========================================
 
 
-function cambiarCantidad(index,cantidad){
+function cambiarCantidad(index, cantidad) {
 
 
 
-    cantidad=parseFloat(cantidad);
+    cantidad = parseFloat(cantidad);
 
 
 
-    if(cantidad > carrito[index].stock){
+    if (cantidad > carrito[index].stock) {
 
 
         cantidad = carrito[index].stock;
@@ -324,7 +324,7 @@ function cambiarCantidad(index,cantidad){
 
 
 
-    carrito[index].cantidad=cantidad;
+    carrito[index].cantidad = cantidad;
 
 
 
@@ -342,10 +342,10 @@ function cambiarCantidad(index,cantidad){
 // ========================================
 
 
-function eliminarProducto(index){
+function eliminarProducto(index) {
 
 
-    carrito.splice(index,1);
+    carrito.splice(index, 1);
 
 
     mostrarCarrito();
@@ -362,19 +362,19 @@ function eliminarProducto(index){
 // ========================================
 
 
-function calcularTotales(){
+function calcularTotales() {
 
 
-    let subtotal=0;
+    let subtotal = 0;
 
 
 
-    carrito.forEach(function(producto){
+    carrito.forEach(function (producto) {
 
 
-        subtotal += 
-        producto.cantidad *
-        producto.precio;
+        subtotal +=
+            producto.cantidad *
+            producto.precio;
 
 
     });
@@ -382,31 +382,31 @@ function calcularTotales(){
 
 
     let impuesto =
-    subtotal * 0.15;
+        subtotal * 0.15;
 
 
 
     let descuento =
-    parseFloat($("#descuento").val())
-    ||0;
+        parseFloat($("#descuento").val())
+        || 0;
 
 
 
     let total =
-    subtotal + impuesto - descuento;
+        subtotal + impuesto - descuento;
 
 
 
     $("#subtotal")
-    .val(subtotal.toFixed(2));
+        .val(subtotal.toFixed(2));
 
 
     $("#impuesto")
-    .val(impuesto.toFixed(2));
+        .val(impuesto.toFixed(2));
 
 
     $("#total")
-    .text(total.toFixed(2));
+        .text(total.toFixed(2));
 
 
 

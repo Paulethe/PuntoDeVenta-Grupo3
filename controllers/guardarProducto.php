@@ -34,15 +34,13 @@ function redirigirConMensaje($mensaje, $tipo, $destino)
         empty($nombre) ||
         $id_categoria <= 0 ||
         empty($unidad_medida) ||
-        $_POST['precio_costo'] === '' ||
-        $_POST['precio_venta'] === '' ||
-        $_POST['stock'] === '' ||
-        $_POST['stock_minimo'] === ''
+        empty($precio_costo) ||
+        empty($precio_venta) ||
+        empty($stock) ||
+        empty($stock_minimo)
     ) {
         redirigirConMensaje("Complete correctamente todos los campos obligatorios.", "danger", "../nuevoProducto.php");
     }
-
-
 
     if (
         $precio_costo < 0 ||
@@ -58,7 +56,7 @@ function redirigirConMensaje($mensaje, $tipo, $destino)
         redirigirConMensaje("El tipo seleccionado no es válido.", "danger", "../nuevoProducto.php");
     }
 
-//
+
     $codigo_barras = $codigo_barras !== '' ? $codigo_barras : null;
 
     $stmt = $conn->prepare(
@@ -68,8 +66,9 @@ function redirigirConMensaje($mensaje, $tipo, $destino)
     );
     $stmt->bind_param("i", $id_categoria);
     $stmt->execute();
+    $resultado =$stmt->get_result();
 
-    if ($stmt->get_result()->num_rows === 0) {
+    if ($resultado->num_rows === 0) {
         $stmt->close();
         redirigirConMensaje("La categoría seleccionada no existe", "warning", "../nuevoProducto.php");
     }
@@ -101,11 +100,6 @@ if ($archivo_imagen && $archivo_imagen['error'] !== UPLOAD_ERR_NO_FILE) {
         redirigirConMensaje("No se pudo cargar la imagen seleccionada.", "danger", "../nuevoProducto.php");
     }
 
-    /*$tamano_maximo = 10 * 1024 * 1024;
-
-    if ($archivo_imagen['size'] > $tamano_maximo) {
-        redirigirConMensaje("La imagen no puede superar los 10 MB.", "danger", "../nuevoProducto.php");
-    }*/
 
     $finfo = new finfo(FILEINFO_MIME_TYPE);
     $mime = $finfo->file($archivo_imagen['tmp_name']);
