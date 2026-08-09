@@ -70,7 +70,7 @@ include "includes/navbar.php";
 
                 <div class="mb-3">
                     <label for="descripcion" class="form-label">Descripción</label>
-                    <textarea id="descripcion" class="form-control" name="descripcion" rows="3"><?php echo htmlspecialchars($categoria['descripcion']); ?></textarea>
+                    <textarea id="descripcion" class="form-control" name="descripcion" required rows="3"><?php echo htmlspecialchars($categoria['descripcion']); ?></textarea>
                 </div>
 
                 <div class="mb-3">
