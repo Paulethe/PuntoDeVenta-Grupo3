@@ -23,7 +23,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     u.password,
                     u.id_rol,
                     u.estado,
-                    r.nombre as nombre_rol
+                    r.nombre as nombre_rol,
+                    r.estado as estado_rol
 
                     FROM usuarios u
                     INNER JOIN roles r
@@ -40,6 +41,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         if ($datos_usuario['estado'] != 1) {
             $_SESSION['mensaje'] = "El usuario se encuentra inactivo";
+            $_SESSION['tipo'] = "danger";
+            header("Location: ../login.php");
+            exit;
+        }
+        if ($datos_usuario['estado_rol'] != 1) {
+            $_SESSION['mensaje'] = "El rol del usuario se encuentra inactivo";
             $_SESSION['tipo'] = "danger";
             header("Location: ../login.php");
             exit;

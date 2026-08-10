@@ -3,7 +3,7 @@
 $host = "localhost";
 $usuario = "root";
 //Escribir la contraseña de la base de datos 
-$password = "";
+$password = "Yefrigd12354.";
 $base_datos = "punto_venta";
 
 $conn = new mysqli(

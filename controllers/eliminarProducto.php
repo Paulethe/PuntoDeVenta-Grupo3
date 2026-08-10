@@ -3,78 +3,42 @@
 session_start();
 
 require "../config/db.php";
+require_once "../includes/validarController.php";
+validarControlador($conn, "productos_eliminar");
 
-
-if (!isset($_GET['id'])) {
-
-    header("Location: ../productos.php");
+function redirigirConMensaje($mensaje, $tipo, $destino)
+{
+    $_SESSION['mensaje'] = $mensaje;
+    $_SESSION['tipo'] = $tipo;
+    header("Location: " . $destino);
     exit;
 }
 
+if (!isset($_GET['id']) || intval($_GET['id']) <= 0) {
+    redirigirConMensaje("Producto no válido.", "warning", "../productos.php");
+}
 
 $id_producto = intval($_GET['id']);
 
+// Verificar que el producto exista
 
-// Validar que exista
-
-$query = "SELECT id_producto
-          FROM productos
-          WHERE id_producto = ?";
-
-$stmt = $conn->prepare($query);
-
+$consulta = "SELECT id_producto FROM productos WHERE id_producto = ?";
+$stmt = $conn->prepare($consulta);
 $stmt->bind_param("i", $id_producto);
-
 $stmt->execute();
-
 $resultado = $stmt->get_result();
 
-
 if ($resultado->num_rows == 0) {
-
-    $_SESSION['mensaje'] = "El producto no existe.";
-    $_SESSION['tipo'] = "warning";
-
-    header("Location: ../productos.php");
-    exit;
+    redirigirConMensaje("El producto no existe.", "warning", "../productos.php");
 }
 
-
-// No permitir eliminar
-
-if ($id_producto == 1) {
-
-    $_SESSION['mensaje'] = "No se puede desactivar el producto";
-    $_SESSION['tipo'] = "warning";
-
-    header("Location: ../usuarios.php");
-    exit;
-}
-
-
-
-// Cambiar estado
-
-$query = "UPDATE productos
-          SET estado = 0
-          WHERE id_producto = ?";
-
-
+// Desactivar producto
+$query = "UPDATE productos SET estado = 0 WHERE id_producto = ?";
 $stmt = $conn->prepare($query);
-
 $stmt->bind_param("i", $id_producto);
 
-
 if ($stmt->execute()) {
-
-    $_SESSION['mensaje'] = "Producto desactivado correctamente.";
-    $_SESSION['tipo'] = "success";
+    redirigirConMensaje( "Producto desactivado correctamente.", "success", "../productos.php");
 } else {
-
-    $_SESSION['mensaje'] = "Error al desactivar el producto.";
-    $_SESSION['tipo'] = "danger";
+    redirigirConMensaje("Error al desactivar el producto.", "danger", "../productos.php");
 }
-header("Location: ../productos.php");
-exit;
-
-?>

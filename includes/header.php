@@ -48,7 +48,7 @@ if (session_status() == PHP_SESSION_NONE) {
 
             margin-left:260px;
             padding:20px;
-            transition:.3s;
+            transition:margin-left .3s;
 
         }
 
@@ -87,6 +87,9 @@ if (session_status() == PHP_SESSION_NONE) {
             top: 0;
             overflow-y: auto;
             color: white;
+            z-index: 1040;
+            transform: translateX(0);
+            transition: transform .3s;
 
         }
 
@@ -176,7 +179,7 @@ if (session_status() == PHP_SESSION_NONE) {
         .navbar{
             margin-left: 250px;
             height: 65px;
-            transition: .3s;
+            transition: margin-left .3s;
         }
          @media(max-width:991px){
 
@@ -189,7 +192,7 @@ if (session_status() == PHP_SESSION_NONE) {
         }
 
         .sidebar.cerrado{
-            margin-left: -250px;
+            transform: translateX(-100%);
 
         }
         .content.expandido{
@@ -197,6 +200,54 @@ if (session_status() == PHP_SESSION_NONE) {
         }
         .navbar.expandido{
             margin-left: 0;
+        }
+
+        .sidebar-overlay{
+            display: none;
+        }
+
+        @media(max-width:991px){
+
+            .navbar,
+            .navbar.expandido,
+            .content,
+            .content.expandido{
+                margin-left: 0;
+            }
+
+            .content{
+                width: 100%;
+                padding: 12px;
+            }
+
+            .sidebar{
+                transform: translateX(-100%);
+                box-shadow: 4px 0 12px rgba(0,0,0,.25);
+            }
+
+            .sidebar.abierto{
+                transform: translateX(0);
+            }
+
+            .sidebar-overlay{
+                display: block;
+                position: fixed;
+                inset: 0;
+                background: rgba(0,0,0,.45);
+                opacity: 0;
+                visibility: hidden;
+                transition: opacity .3s, visibility .3s;
+                z-index: 1035;
+            }
+
+            .sidebar-overlay.activo{
+                opacity: 1;
+                visibility: visible;
+            }
+
+            body.sidebar-abierto{
+                overflow: hidden;
+            }
         }
     </style>
 </head>

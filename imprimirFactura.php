@@ -14,21 +14,16 @@ $id_venta = intval($_GET['id']);
 
 
 
-// Datos empresa
+// Datos de la empresa
 
-$empresa = [
+$query = "SELECT nombre, razon_social, nombre_comercial, rtn, telefono,
+                 correo, departamento, municipio, direccion, logo
+          FROM empresa
+          WHERE id_empresa = 1
+          LIMIT 1";
 
-    "nombre" => "Mi Empresa",
-
-    "direccion" => "Dirección de la empresa",
-
-    "telefono" => "0000-0000",
-
-    "correo" => "correo@empresa.com",
-
-    "rtn" => "00000000000000"
-
-];
+$resultado_empresa = $conn->query($query);
+$empresa = $resultado_empresa->fetch_assoc();
 
 
 
@@ -234,27 +229,54 @@ $detalle = $stmt->get_result();
 
     <div class="text-center">
 
+        <?php if (!empty($empresa['logo'] ?? '')) { ?>
+            <img src="<?php echo htmlspecialchars($empresa['logo']); ?>"
+                 alt="Logo"
+                 style="max-width: 100px; max-height: 70px;">
+        <?php } ?>
+
 
         <h3>
 
-            <?php echo $empresa['nombre']; ?>
+            <?php echo htmlspecialchars(
+                !empty($empresa['nombre_comercial'] ?? '')
+                    ? $empresa['nombre_comercial']
+                    : ($empresa['nombre'] ?? '')
+            ); ?>
 
         </h3>
 
 
+        <?php if (!empty($empresa['razon_social'] ?? '')) { ?>
+            <p><?php echo htmlspecialchars($empresa['razon_social'] ?? ''); ?></p>
+        <?php } ?>
+
         <p>
 
-            <?php echo $empresa['direccion']; ?>
+            <?php echo htmlspecialchars($empresa['direccion'] ?? ''); ?>
+
+            <?php if (!empty($empresa['municipio'] ?? '')) { ?>
+                <br><?php echo htmlspecialchars($empresa['municipio']); ?>
+            <?php } ?>
+
+            <?php if (!empty($empresa['departamento'] ?? '')) { ?>
+                , <?php echo htmlspecialchars($empresa['departamento']); ?>
+            <?php } ?>
 
             <br>
 
             Tel:
-            <?php echo $empresa['telefono']; ?>
+            <?php echo htmlspecialchars($empresa['telefono'] ?? ''); ?>
+
+            <br>
+
+            Correo:
+            <?php echo htmlspecialchars($empresa['correo'] ?? ''); ?>
 
             <br>
 
             RTN:
-            <?php echo $empresa['rtn']; ?>
+            <?php echo htmlspecialchars($empresa['rtn'] ?? ''); ?>
 
 
         </p>
