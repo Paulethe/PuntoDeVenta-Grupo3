@@ -2,6 +2,8 @@
 
 session_start();
 require "../config/db.php";
+require_once "../includes/validarController.php";
+validarControlador($conn, "productos_editar");
 
 function redirigirConMensaje($mensaje, $tipo, $destino)
 {

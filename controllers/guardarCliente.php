@@ -1,6 +1,8 @@
 <?php
 session_start();
 require "../config/db.php";
+require_once "../includes/validarController.php";
+validarControlador($conn, "clientes_crear");
 
 
 function redirigirConMensaje($mensaje, $tipo, $destino){

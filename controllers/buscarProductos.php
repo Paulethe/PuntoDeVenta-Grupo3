@@ -1,6 +1,8 @@
 <?php
 
 require "../config/db.php";
+require_once "../includes/validarController.php";
+validarControlador($conn, "ventas_crear");
 
 
 if (isset($_POST['buscar'])) {

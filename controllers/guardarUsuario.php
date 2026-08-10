@@ -3,6 +3,8 @@
 session_start();
 
 require "../config/db.php";
+require_once "../includes/validarController.php";
+validarControlador($conn, "usuarios_crear");
 
 
 if ($_SERVER['REQUEST_METHOD'] == "POST") {

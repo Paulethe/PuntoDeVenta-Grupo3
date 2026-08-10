@@ -3,6 +3,8 @@
 session_start();
 
 require "../config/db.php";
+require_once "../includes/validarController.php";
+validarControlador($conn, "roles_eliminar");
 
 if (!isset($_GET['id'])) {
 

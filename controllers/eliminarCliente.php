@@ -3,6 +3,8 @@
 session_start();
 
 require "../config/db.php";
+require_once "../includes/validarController.php";
+validarControlador($conn, "clientes_eliminar");
 function redirigirConMensaje($mensaje, $tipo, $destino)
 {
     $_SESSION['mensaje'] = $mensaje;

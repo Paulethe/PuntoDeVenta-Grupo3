@@ -156,3 +156,35 @@
             REFERENCES productos(id_producto)
 
     );
+
+
+
+    CREATE TABLE empresa (
+    id_empresa INT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(150) NOT NULL,
+    razon_social VARCHAR(150),           -- NECESARIO para tu controlador
+    nombre_comercial VARCHAR(150),
+    rtn VARCHAR(50),
+    telefono VARCHAR(20),
+    correo VARCHAR(100),
+    departamento VARCHAR(100),
+    municipio VARCHAR(100),
+    direccion TEXT,
+    logo VARCHAR(255),
+    fecha_creacion DATETIME DEFAULT CURRENT_TIMESTAMP,
+    estado CHAR(1) DEFAULT 'A'
+);
+
+
+CREATE TABLE movimientos_caja (
+    id_movimiento INT AUTO_INCREMENT PRIMARY KEY,
+    id_apertura INT NOT NULL,
+    tipo ENUM('INGRESO','EGRESO') NOT NULL,
+    descripcion TEXT NOT NULL,
+    monto DECIMAL(12,2) NOT NULL,
+    fecha DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    id_usuario INT NOT NULL,
+
+    FOREIGN KEY(id_apertura) REFERENCES aperturas_caja(id_apertura),
+    FOREIGN KEY(id_usuario) REFERENCES usuarios(id_usuario)
+);

@@ -3,6 +3,8 @@
 session_start();
 
 require "../config/db.php";
+require_once "../includes/validarController.php";
+validarControlador($conn, "clientes_editar");
 
 function redirigirConMensaje($mensaje, $tipo, $destino)
 {

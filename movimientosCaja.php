@@ -1,15 +1,15 @@
 <?php
-// ============================================
-// VISTA MOVIMIENTO DE CAJA
-// Formulario + listado de movimientos
-// ============================================
 
-require "includes/session.php";   // Verifica sesión
-require "config/db.php";          // Conexión
+
+require "includes/session.php";
+require "config/db.php";
+require_once "includes/permisos.php";
 
 $id_usuario = $_SESSION['id_usuario'];
 
-// Obtenemos la apertura de caja actual
+requerirPermiso($conn, "caja_movimientos", "dashboard.php");
+
+
 $query_apertura = "
     SELECT id_apertura, fecha_apertura, monto_inicial
     FROM aperturas_caja
@@ -25,11 +25,16 @@ $result_apertura = $stmt_apertura->get_result();
 $apertura = $result_apertura->fetch_assoc();
 $stmt_apertura->close();
 
-// Obtenemos movimientos de la caja actual (si existe)
+
 $movimientos = [];
+$total_ingresos = 0.0;
+$total_egresos = 0.0;
+$total_actual = 0.0;
+
 if ($apertura) {
     $id_apertura = $apertura['id_apertura'];
 
+    // Obtener movimientos
     $query_mov = "
         SELECT m.*, u.nombre AS nombre_usuario
         FROM movimientos_caja m
@@ -39,16 +44,38 @@ if ($apertura) {
         ORDER BY m.fecha DESC
     ";
 
-    $stmt_mov = $conn->prepare($query_mov);
-    $stmt_mov->bind_param("i", $id_apertura);
-    $stmt_mov->execute();
-    $result_mov = $stmt_mov->get_result();
+    $stmt = $conn->prepare($query_mov);
+    $stmt->bind_param("i", $id_apertura);
+    $stmt->execute();
+    $result_mov = $stmt->get_result();
 
     while ($fila = $result_mov->fetch_assoc()) {
         $movimientos[] = $fila;
     }
 
-    $stmt_mov->close();
+    $stmt->close();
+
+    $query_totales = "
+        SELECT
+            SUM(CASE WHEN tipo = 'INGRESO' THEN monto ELSE 0 END) AS total_ingresos,
+            SUM(CASE WHEN tipo = 'EGRESO' THEN monto ELSE 0 END) AS total_egresos
+        FROM movimientos_caja
+        WHERE id_apertura = ?
+    ";
+
+    $stmt_tot = $conn->prepare($query_totales);
+    $stmt_tot->bind_param("i", $id_apertura);
+    $stmt_tot->execute();
+    $result_tot = $stmt_tot->get_result();
+    $totales = $result_tot->fetch_assoc();
+
+    $total_ingresos = $totales['total_ingresos'] ?? 0;
+    $total_egresos  = $totales['total_egresos'] ?? 0;
+
+    // Total actual de la caja
+
+    $total_actual = $apertura['monto_inicial'] + $total_ingresos - $total_egresos;
+    $stmt_tot->close();
 }
 
 require "includes/header.php";
@@ -76,13 +103,22 @@ require "includes/sidebar.php";
         }
         ?>
 
-        <!-- Información de la caja actual -->
         <div class="card mb-3">
             <div class="card-body">
                 <?php if ($apertura): ?>
                     <p><strong>Caja abierta:</strong> #<?php echo $apertura['id_apertura']; ?></p>
                     <p><strong>Fecha apertura:</strong> <?php echo $apertura['fecha_apertura']; ?></p>
                     <p><strong>Monto inicial:</strong> L. <?php echo number_format($apertura['monto_inicial'], 2); ?></p>
+
+                    <!-- NUEVO: Totales -->
+                    <p><strong>Total ingresos:</strong> L. <?php echo number_format($total_ingresos, 2); ?></p>
+                    <p><strong>Total egresos:</strong> L. <?php echo number_format($total_egresos, 2); ?></p>
+                    <p><strong>Total actual de caja:</strong>
+                        <span class="text-success">
+                            L. <?php echo number_format($total_actual, 2); ?>
+                        </span>
+                    </p>
+
                 <?php else: ?>
                     <p class="text-danger">
                         No tiene una caja abierta actualmente. Debe abrir una caja para registrar movimientos.
@@ -93,7 +129,7 @@ require "includes/sidebar.php";
 
         <!-- Formulario para nuevo movimiento -->
         <div class="card mb-4">
-            <div class="card-header">
+          movimientoCaja  <div class="card-header">
                 Registrar movimiento
             </div>
             <div class="card-body">

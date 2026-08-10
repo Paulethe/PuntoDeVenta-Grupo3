@@ -1,8 +1,4 @@
 <?php
-// ============================================
-// VISTA EMPRESA
-// Formulario para editar datos de la empresa
-// ============================================
 
 require "includes/session.php";   // Verifica que el usuario esté logueado
 require "config/db.php";          // Conexión a la base
@@ -39,8 +35,7 @@ require "includes/sidebar.php";
 
         <div class="card">
             <div class="card-body">
-                <form action="controllers/empresa.php" method="POST">
-                    <!-- Nombre de la empresa -->
+                <form action="controllers/empresa.php" method="POST" enctype="multipart/form-data">
                     <div class="mb-3">
                         <label class="form-label">Nombre de la empresa</label>
                         <input type="text"
@@ -48,6 +43,15 @@ require "includes/sidebar.php";
                                class="form-control"
                                required
                                value="<?php echo htmlspecialchars($empresa['nombre'] ?? ''); ?>">
+                    </div>
+
+                    <!-- Nombre comercial -->
+                    <div class="mb-3">
+                        <label class="form-label">Nombre comercial</label>
+                        <input type="text"
+                               name="nombre_comercial"
+                               class="form-control"
+                               value="<?php echo htmlspecialchars($empresa['nombre_comercial'] ?? ''); ?>">
                     </div>
 
                     <!-- Razón social -->
@@ -86,12 +90,59 @@ require "includes/sidebar.php";
                                value="<?php echo htmlspecialchars($empresa['correo'] ?? ''); ?>">
                     </div>
 
+                    <!-- Departamento y municipio -->
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Departamento</label>
+                            <input type="text"
+                                   name="departamento"
+                                   class="form-control"
+                                   value="<?php echo htmlspecialchars($empresa['departamento'] ?? ''); ?>">
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Municipio</label>
+                            <input type="text"
+                                   name="municipio"
+                                   class="form-control"
+                                   value="<?php echo htmlspecialchars($empresa['municipio'] ?? ''); ?>">
+                        </div>
+                    </div>
+
                     <!-- Dirección -->
                     <div class="mb-3">
                         <label class="form-label">Dirección</label>
                         <textarea name="direccion"
                                   class="form-control"
                                   rows="3"><?php echo htmlspecialchars($empresa['direccion'] ?? ''); ?></textarea>
+                    </div>
+
+                    <!-- Logo -->
+                    <div class="mb-3">
+                        <label class="form-label">Logo</label>
+                        <input type="file"
+                               name="logo"
+                               class="form-control"
+                               accept=".jpg,.jpeg,.png,.webp">
+                        <input type="hidden"
+                               name="logo_actual"
+                               value="<?php echo htmlspecialchars($empresa['logo'] ?? ''); ?>">
+
+                        <?php if (!empty($empresa['logo'])) { ?>
+                            <img src="<?php echo htmlspecialchars($empresa['logo']); ?>"
+                                 alt="Logo de la empresa"
+                                 class="mt-2"
+                                 style="max-width: 150px; max-height: 100px;">
+                        <?php } ?>
+                    </div>
+
+                    <!-- Estado -->
+                    <div class="mb-3">
+                        <label class="form-label">Estado</label>
+                        <select name="estado" class="form-control">
+                            <option value="A" <?php if (($empresa['estado'] ?? 'A') == 'A') echo 'selected'; ?>>Activa</option>
+                            <option value="I" <?php if (($empresa['estado'] ?? 'A') == 'I') echo 'selected'; ?>>Inactiva</option>
+                        </select>
                     </div>
 
                     <div class="d-grid">

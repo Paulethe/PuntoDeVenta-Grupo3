@@ -3,6 +3,8 @@
 session_start();
 
 require "../config/db.php";
+require_once "../includes/validarController.php";
+validarControlador($conn, "caja_abrir");
 
 
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
